@@ -34,13 +34,17 @@ const add = document.getElementById('add');
 const minus = document.getElementById('minus');
 const number = document.getElementById('number');
 
+const ADD = 'ADD';
+const MINUS = 'MINUS';
+
 const countModify = (count = 0, action) => {
-  if (action.type === 'add') {
-    return count + 1;
-  } else if (action.type === 'minus') {
-    return count - 1;
-  } else {
-    return count;
+  switch (action.type) {
+    case ADD:
+      return count + 1;
+    case MINUS:
+      return count - 1;
+    default:
+      return count;
   }
 };
 
@@ -54,11 +58,11 @@ const onChange = () => {
 countStore.subscribe(onChange);
 
 const handleAdd = () => {
-  countStore.dispatch({ type: 'add' });
+  countStore.dispatch({ type: ADD });
 };
 
 const handleMinus = () => {
-  countStore.dispatch({ type: 'minus' });
+  countStore.dispatch({ type: MINUS });
 };
 
 add.addEventListener('click', handleAdd);
