@@ -7,13 +7,10 @@ const ADD_TODO = 'ADD_TODO';
 const DELETE_TODO = 'DELETE_TODO';
 
 const reducer = (state = [], action) => {
-  console.log(action);
   switch (action.type) {
     case ADD_TODO:
-      console.log(action.text);
-      return [];
+      return [...state, { text: action.text, id: action.id }]; // 새로운 state를 만들어서 return
     case DELETE_TODO:
-      console.log('delete');
       return [];
     default:
       return state;
@@ -22,11 +19,13 @@ const reducer = (state = [], action) => {
 
 const store = createStore(reducer);
 
+store.subscribe(() => console.log(store.getState()));
+
 const onSubmit = (e) => {
   e.preventDefault();
   const toDo = input.value;
   input.value = '';
-  store.dispatch({ type: ADD_TODO, text: toDo });
+  store.dispatch({ type: ADD_TODO, text: toDo, id: Date.now() });
 };
 
 form.addEventListener('submit', onSubmit);
