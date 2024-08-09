@@ -5,8 +5,7 @@ import { deleteToDo } from '../store';
 const ToDo = ({ text, id }) => {
   const dispatch = useDispatch();
 
-  const deleteBtnClick = (e) => {
-    const id = parseInt(e.target.parentNode.id);
+  const deleteBtnClick = () => {
     dispatch(deleteToDo(id));
   };
 
