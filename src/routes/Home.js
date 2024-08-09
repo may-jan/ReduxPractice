@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { connect } from 'react-redux';
+// import { connect } from 'react-redux';
+// import { actionCreators } from '../store';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
-import { actionCreators } from '../store';
+import { addToDo } from '../store';
 
-const Home = ({ toDos, addToDo }) => {
+const Home = () => {
   const [text, setText] = useState('');
 
   const todo = useSelector((state) => state);
@@ -18,7 +19,7 @@ const Home = ({ toDos, addToDo }) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    addToDo(text);
+    dispatch(addToDo(text));
     setText('');
   };
 
@@ -34,12 +35,4 @@ const Home = ({ toDos, addToDo }) => {
   );
 };
 
-const mapStateToProps = (state) => {
-  return { toDos: state };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return { addToDo: (text) => dispatch(actionCreators.addToDo(text)) };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default Home;
