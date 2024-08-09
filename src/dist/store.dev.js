@@ -58,7 +58,6 @@ var reducer = function reducer() {
   }
 };
 
-var store = (0, _redux.createStore)(reducer); // store.subscribe();
-
+var store = (0, _redux.createStore)(reducer);
 var _default = store;
 exports["default"] = _default;
