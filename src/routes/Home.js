@@ -1,12 +1,16 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { actionCreators } from '../store';
 
-const Home = ({ toDos }) => {
+const Home = ({ toDos, addToDo }) => {
   const [text, setText] = useState('');
 
   const todo = useSelector((state) => state);
   // useSelector : Redux store state의 데이터를 바로 가져올 수 있다
+  const dispatch = useDispatch();
+  // useDispatch : mapStateToProps 대체
 
   const onChange = (e) => {
     setText(e.target.value);
@@ -14,6 +18,7 @@ const Home = ({ toDos }) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
+    addToDo(text);
     setText('');
   };
 
@@ -33,4 +38,8 @@ const mapStateToProps = (state) => {
   return { toDos: state };
 };
 
-export default connect(mapStateToProps)(Home);
+const mapDispatchToProps = (dispatch) => {
+  return { addToDo: (text) => dispatch(actionCreators.addToDo(text)) };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

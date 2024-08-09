@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = exports.deleteToDo = exports.addToDo = void 0;
+exports["default"] = exports.actionCreators = void 0;
 
 var _redux = require("redux");
 
@@ -26,16 +26,12 @@ var addToDo = function addToDo(text) {
   };
 };
 
-exports.addToDo = addToDo;
-
 var deleteToDo = function deleteToDo(id) {
   return {
     type: DELETE,
     id: id
   };
 };
-
-exports.deleteToDo = deleteToDo;
 
 var reducer = function reducer() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
@@ -45,7 +41,7 @@ var reducer = function reducer() {
     case ADD:
       return [{
         text: action.text,
-        id: Date.now()
+        id: action.id
       }].concat(_toConsumableArray(state));
 
     case DELETE:
@@ -59,5 +55,10 @@ var reducer = function reducer() {
 };
 
 var store = (0, _redux.createStore)(reducer);
+var actionCreators = {
+  addToDo: addToDo,
+  deleteToDo: deleteToDo
+};
+exports.actionCreators = actionCreators;
 var _default = store;
 exports["default"] = _default;
