@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-// import { connect } from 'react-redux';
-// import { actionCreators } from '../store';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { addToDo } from '../store';
