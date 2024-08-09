@@ -10,7 +10,7 @@ const ToDo = ({ text, id }) => {
   };
 
   return (
-    <li id={id}>
+    <li>
       {text} <button onClick={deleteBtnClick}>❌</button>
     </li>
   );
