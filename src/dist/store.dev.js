@@ -38,20 +38,24 @@ var deleteToDo = function deleteToDo(id) {
 exports.deleteToDo = deleteToDo;
 
 var reducer = function reducer() {
-  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : JSON.parse(localStorage.getItem('toDos'));
   var action = arguments.length > 1 ? arguments[1] : undefined;
 
   switch (action.type) {
     case ADD:
-      return [{
+      var addItem = [{
         text: action.text,
         id: action.id
       }].concat(_toConsumableArray(state));
+      localStorage.setItem('toDos', JSON.stringify(addItem));
+      return addItem;
 
     case DELETE:
-      return state.filter(function (toDo) {
+      var deleteItem = state.filter(function (toDo) {
         return toDo.id !== action.id;
       });
+      localStorage.setItem('toDos', JSON.stringify(deleteItem));
+      return deleteItem;
 
     default:
       return state;

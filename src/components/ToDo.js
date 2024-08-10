@@ -12,9 +12,8 @@ const ToDo = ({ text, id }) => {
 
   return (
     <li>
-      <Link to={`/${id}`}>
-        {text} <button onClick={deleteBtnClick}>❌</button>
-      </Link>
+      <Link to={`/${id}`}>{text}</Link>
+      <button onClick={deleteBtnClick}>❌</button>
     </li>
   );
 };
