@@ -29,11 +29,7 @@ const Home = () => {
         <input type='text' value={text} onChange={onChange} />
         <button>Add</button>
       </form>
-      <ul>
-        {toDos.map((toDo) => (
-          <ToDo {...toDo} key={toDo.id} />
-        ))}
-      </ul>
+      <ul>{toDos && toDos.map((toDo) => <ToDo {...toDo} key={toDo.id} />)}</ul>
     </div>
   );
 };
