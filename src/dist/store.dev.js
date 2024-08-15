@@ -5,8 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = exports.deleteToDo = exports.addToDo = void 0;
 
-var _redux = require("redux");
-
 var _toolkit = require("@reduxjs/toolkit");
 
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
@@ -17,40 +15,11 @@ function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.
 
 function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
 
-// export const addToDo = createAction('ADD');
-// export const deleteToDo = createAction('DELETE');
 var defaultState = localStorage.getItem('toDos') ? JSON.parse(localStorage.getItem('toDos')) : [];
 
 var shortid = function shortid() {
   return Date.now();
-}; // const reducer = (state = defaultState, action) => {
-//   switch (action.type) {
-//     case addToDo.type:
-//       const addItem = [{ text: action.payload, id: Date.now() }, ...state];
-//       localStorage.setItem('toDos', JSON.stringify(addItem));
-//       return addItem;
-//     case deleteToDo.type:
-//       const deleteItem = state.filter((toDo) => toDo.id !== action.payload);
-//       localStorage.setItem('toDos', JSON.stringify(deleteItem));
-//       return deleteItem;
-//     default:
-//       return state;
-//   }
-// };
-// const reducer = createReducer(defaultState, (builder) => {
-//   builder
-//     .addCase(addToDo, (state, action) => {
-//       const newItem = { text: action.payload, id: shortid() };
-//       localStorage.setItem('toDos', JSON.stringify([newItem, ...state]));
-//       state.unshift(newItem); // Redux Toolkit 에서는 state mutate 가능
-//     })
-//     .addCase(deleteToDo, (state, action) => {
-//       const deleteItem = state.filter((toDo) => toDo.id !== action.payload);
-//       localStorage.setItem('toDos', JSON.stringify(deleteItem));
-//       return deleteItem;
-//     });
-// });
-
+};
 
 var toDos = (0, _toolkit.createSlice)({
   name: 'toDosReducer',
@@ -62,7 +31,7 @@ var toDos = (0, _toolkit.createSlice)({
         id: shortid()
       };
       localStorage.setItem('toDos', JSON.stringify([newItem].concat(_toConsumableArray(state))));
-      state.unshift(newItem);
+      state.unshift(newItem); // Redux Toolkit 에서는 state mutate 가능
     },
     deleteToDo: function deleteToDo(state, action) {
       var deleteItem = state.filter(function (toDo) {
