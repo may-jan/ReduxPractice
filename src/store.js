@@ -1,12 +1,21 @@
 import { createStore } from 'redux';
-import { configureStore, createAction, createReducer } from '@reduxjs/toolkit';
+import {
+  configureStore,
+  createAction,
+  createReducer,
+  createSlice,
+} from '@reduxjs/toolkit';
 
-export const addToDo = createAction('ADD');
-export const deleteToDo = createAction('DELETE');
+// export const addToDo = createAction('ADD');
+// export const deleteToDo = createAction('DELETE');
 
 const defaultState = localStorage.getItem('toDos')
   ? JSON.parse(localStorage.getItem('toDos'))
   : [];
+
+const shortid = () => {
+  return Date.now();
+};
 
 // const reducer = (state = defaultState, action) => {
 //   switch (action.type) {
@@ -23,25 +32,40 @@ const defaultState = localStorage.getItem('toDos')
 //   }
 // };
 
-const shortid = () => {
-  return Date.now();
-};
+// const reducer = createReducer(defaultState, (builder) => {
+//   builder
+//     .addCase(addToDo, (state, action) => {
+//       const newItem = { text: action.payload, id: shortid() };
+//       localStorage.setItem('toDos', JSON.stringify([newItem, ...state]));
+//       state.unshift(newItem); // Redux Toolkit 에서는 state mutate 가능
+//     })
+//     .addCase(deleteToDo, (state, action) => {
+//       const deleteItem = state.filter((toDo) => toDo.id !== action.payload);
+//       localStorage.setItem('toDos', JSON.stringify(deleteItem));
+//       return deleteItem;
+//     });
+// });
 
-const reducer = createReducer(defaultState, (builder) => {
-  builder
-    .addCase(addToDo, (state, action) => {
+const toDos = createSlice({
+  name: 'toDosReducer',
+  initialState: defaultState,
+  reducers: {
+    addToDo: (state, action) => {
       const newItem = { text: action.payload, id: shortid() };
       localStorage.setItem('toDos', JSON.stringify([newItem, ...state]));
-      state.unshift(newItem); // Redux Toolkit 에서는 state mutate 가능
-    })
-    .addCase(deleteToDo, (state, action) => {
+      state.unshift(newItem);
+    },
+    deleteToDo: (state, action) => {
       const deleteItem = state.filter((toDo) => toDo.id !== action.payload);
       localStorage.setItem('toDos', JSON.stringify(deleteItem));
       return deleteItem;
-    });
+    },
+  },
 });
 
-const store = configureStore({ reducer });
+const store = configureStore({ reducer: toDos.reducer });
 // configureStore() 사용시, Redux Developer Tools를 사용할 수 있다
+
+export const { addToDo, deleteToDo } = toDos.actions;
 
 export default store;

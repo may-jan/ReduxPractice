@@ -17,11 +17,13 @@ function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.
 
 function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
 
-var addToDo = (0, _toolkit.createAction)('ADD');
-exports.addToDo = addToDo;
-var deleteToDo = (0, _toolkit.createAction)('DELETE');
-exports.deleteToDo = deleteToDo;
-var defaultState = localStorage.getItem('toDos') ? JSON.parse(localStorage.getItem('toDos')) : []; // const reducer = (state = defaultState, action) => {
+// export const addToDo = createAction('ADD');
+// export const deleteToDo = createAction('DELETE');
+var defaultState = localStorage.getItem('toDos') ? JSON.parse(localStorage.getItem('toDos')) : [];
+
+var shortid = function shortid() {
+  return Date.now();
+}; // const reducer = (state = defaultState, action) => {
 //   switch (action.type) {
 //     case addToDo.type:
 //       const addItem = [{ text: action.payload, id: Date.now() }, ...state];
@@ -35,30 +37,50 @@ var defaultState = localStorage.getItem('toDos') ? JSON.parse(localStorage.getIt
 //       return state;
 //   }
 // };
+// const reducer = createReducer(defaultState, (builder) => {
+//   builder
+//     .addCase(addToDo, (state, action) => {
+//       const newItem = { text: action.payload, id: shortid() };
+//       localStorage.setItem('toDos', JSON.stringify([newItem, ...state]));
+//       state.unshift(newItem); // Redux Toolkit 에서는 state mutate 가능
+//     })
+//     .addCase(deleteToDo, (state, action) => {
+//       const deleteItem = state.filter((toDo) => toDo.id !== action.payload);
+//       localStorage.setItem('toDos', JSON.stringify(deleteItem));
+//       return deleteItem;
+//     });
+// });
 
-var shortid = function shortid() {
-  return Date.now();
-};
 
-var reducer = (0, _toolkit.createReducer)(defaultState, function (builder) {
-  builder.addCase(addToDo, function (state, action) {
-    var newItem = {
-      text: action.payload,
-      id: shortid()
-    };
-    localStorage.setItem('toDos', JSON.stringify([newItem].concat(_toConsumableArray(state))));
-    state.unshift(newItem); // Redux Toolkit 에서는 state mutate 가능
-  }).addCase(deleteToDo, function (state, action) {
-    var deleteItem = state.filter(function (toDo) {
-      return toDo.id !== action.payload;
-    });
-    localStorage.setItem('toDos', JSON.stringify(deleteItem));
-    return deleteItem;
-  });
+var toDos = (0, _toolkit.createSlice)({
+  name: 'toDosReducer',
+  initialState: defaultState,
+  reducers: {
+    addToDo: function addToDo(state, action) {
+      var newItem = {
+        text: action.payload,
+        id: shortid()
+      };
+      localStorage.setItem('toDos', JSON.stringify([newItem].concat(_toConsumableArray(state))));
+      state.unshift(newItem);
+    },
+    deleteToDo: function deleteToDo(state, action) {
+      var deleteItem = state.filter(function (toDo) {
+        return toDo.id !== action.payload;
+      });
+      localStorage.setItem('toDos', JSON.stringify(deleteItem));
+      return deleteItem;
+    }
+  }
 });
 var store = (0, _toolkit.configureStore)({
-  reducer: reducer
+  reducer: toDos.reducer
 }); // configureStore() 사용시, Redux Developer Tools를 사용할 수 있다
 
+var _toDos$actions = toDos.actions,
+    addToDo = _toDos$actions.addToDo,
+    deleteToDo = _toDos$actions.deleteToDo;
+exports.deleteToDo = deleteToDo;
+exports.addToDo = addToDo;
 var _default = store;
 exports["default"] = _default;
