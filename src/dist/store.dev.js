@@ -56,6 +56,9 @@ var reducer = (0, _toolkit.createReducer)(defaultState, function (builder) {
     return deleteItem;
   });
 });
-var store = (0, _redux.createStore)(reducer);
+var store = (0, _toolkit.configureStore)({
+  reducer: reducer
+}); // configureStore() 사용시, Redux Developer Tools를 사용할 수 있다
+
 var _default = store;
 exports["default"] = _default;
